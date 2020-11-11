@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:state_management_simple/counter_bloc/counter_event.dart';
+import 'package:state_management_simple/counter_bloc/counter_state.dart';
+import 'counter_bloc/counter_bloc.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,39 +32,53 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+    return BlocProvider(
+      create: (context) => CounterBloc(),
+      child: BlocBuilder<CounterBloc, CounterState>(builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(widget.title),
+          ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'You have pushed the button this many times:',
+                ),
+                Text(
+                  '${state.counter}',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+          ),
+          floatingActionButton: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.0),
+                child: FloatingActionButton(
+                  onPressed: () => context.bloc<CounterBloc>().add(Increment()),
+                  tooltip: 'Increment',
+                  child: Icon(Icons.add),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.0),
+                child: FloatingActionButton(
+                  onPressed: () => context.bloc<CounterBloc>().add(Decrement()),
+                  tooltip: 'Decrement',
+                  child: Icon(Icons.remove),
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
