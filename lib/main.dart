@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:state_management_simple/mobx/counter.dart';
+
+final CounterMobX counterMobX = CounterMobXImpl();
 
 void main() {
   runApp(MyApp());
@@ -41,9 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '0',
-              style: Theme.of(context).textTheme.headline4,
+            Observer(
+              builder: (context) => Text(
+                '${counterMobX.counter}',
+                style: Theme.of(context).textTheme.headline4,
+              ),
             ),
           ],
         ),
@@ -55,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             child: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () => counterMobX.increment(),
               tooltip: 'Increment',
               child: Icon(Icons.add),
             ),
@@ -63,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             child: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () => counterMobX.decrement(),
               tooltip: 'Decrement',
               child: Icon(Icons.remove),
             ),
