@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:state_management_simple/count_controller.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,14 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+  final CountController _countController = Get.put(CountController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,17 +44,36 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            GetBuilder<CountController>(builder: (value){
+              return Text(
+                "${value.counter}",
+                style: Theme.of(context).textTheme.headline4,
+              );
+            }),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      floatingActionButton: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            child: FloatingActionButton(
+              onPressed: () => _countController.incrementValue(),
+              tooltip: 'Increment',
+              child: Icon(Icons.add),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            child: FloatingActionButton(
+              onPressed: () => _countController.decrementValue(),
+              tooltip: 'Decrement',
+              child: Icon(Icons.remove),
+            ),
+          ),
+        ],
       ),
     );
   }
