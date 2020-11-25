@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:state_management_simple/count_controller.dart';
+import 'package:state_management_simple/controller/count_controller.dart';
 
 void main() {
   runApp(MyApp());
