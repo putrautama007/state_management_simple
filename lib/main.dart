@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:state_management_simple/redux/reducers.dart';
-import 'package:state_management_simple/redux/actions.dart';
+import 'package:state_management_simple/redux/counter_actions.dart';
 
 void main() {
   final Store<int> store = Store<int>(reducer, initialState: 0);
